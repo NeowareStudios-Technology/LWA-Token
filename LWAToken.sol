@@ -21,7 +21,54 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.*/
 
 pragma solidity ^0.4.23;
 
-import "./SafeMath.sol";
+
+
+/**
+ * @title SafeMath
+ * @dev Math operations with safety checks that throw on error
+ */
+library SafeMath {
+
+  /**
+  * @dev Multiplies two numbers, throws on overflow.
+  */
+  function mul(uint256 a, uint256 b) internal pure returns (uint256 c) {
+    if (a == 0) {
+      return 0;
+    }
+    c = a * b;
+    assert(c / a == b);
+    return c;
+  }
+
+  /**
+  * @dev Integer division of two numbers, truncating the quotient.
+  */
+  function div(uint256 a, uint256 b) internal pure returns (uint256) {
+    // assert(b > 0); // Solidity automatically throws when dividing by 0
+    // uint256 c = a / b;
+    // assert(a == b * c + a % b); // There is no case in which this doesn't hold
+    return a / b;
+  }
+
+  /**
+  * @dev Subtracts two numbers, throws on overflow (i.e. if subtrahend is greater than minuend).
+  */
+  function sub(uint256 a, uint256 b) internal pure returns (uint256) {
+    assert(b <= a);
+    return a - b;
+  }
+
+  /**
+  * @dev Adds two numbers, throws on overflow.
+  */
+  function add(uint256 a, uint256 b) internal pure returns (uint256 c) {
+    c = a + b;
+    assert(c >= a);
+    return c;
+  }
+}
+
 
 
 /**
@@ -110,13 +157,11 @@ contract ERC20 is ERC20Basic {
 contract Ownable {
   address public owner;
 
-
   event OwnershipRenounced(address indexed previousOwner);
   event OwnershipTransferred(
     address indexed previousOwner,
     address indexed newOwner
   );
-
 
   /**
    * @dev The Ownable constructor sets the original `owner` of the contract to the sender
@@ -470,11 +515,11 @@ contract Destructible is Ownable {
 
 
 
-contract LWAToken is MintableToken, Pausable, Destructible {
+contract LWAToken is PausableToken, MintableToken, Destructible {
   string public name = 'Leap With Alice';
   string public symbol = 'LWA';
   uint8 public decimals = 18;
-  uint public INITIAL_SUPPLY = 1*(10**26);
+  uint public INITIAL_SUPPLY = 38448*(10**21);
 
   constructor() public {
     totalSupply_ = INITIAL_SUPPLY;
